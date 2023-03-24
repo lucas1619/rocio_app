@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/numeric_input.dart';
-import '../widgets/text.dart';
-import '../widgets/text_field.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/dropdown_button.dart';
+import '../../widgets/text.dart';
 
-class BaseScreen extends StatefulWidget {
-  const BaseScreen({Key? key}) : super(key: key);
+class CreateCropScreen extends StatefulWidget {
+  const CreateCropScreen({Key? key}) : super(key: key);
 
   @override
-  State<BaseScreen> createState() => _BaseScreenState();
+  State<CreateCropScreen> createState() => _CreateCropScreen();
 }
 
-class _BaseScreenState extends State<BaseScreen> {
+class _CreateCropScreen extends State<CreateCropScreen> {
   String? value;
 
   @override
@@ -33,49 +32,49 @@ class _BaseScreenState extends State<BaseScreen> {
           child: ListView(
             children: [
               MyTextWidget(
-                text: 'Crear campo',
+                text: 'Crear cultivo',
                 fontSize: 30,
               ),
               const SizedBox(
-                height: 10,
+                height: 25,
               ),
-              MyTextWidget(
-                text: 'Datos generales',
-                fontSize: 15,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              InputTextField(),
-              const SizedBox(
-                height: 20,
-              ),
-              NumericInput(
-                hintText: 'Ingresa número de área',
+              CustomDropdownButton(
+                hint: 'Seleccione un tipo de cultivo',
+                items: ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
-                  // Haz algo con el valor ingresado
+                  // handle the selected value
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomDropdownButton(
+                hint: 'Seleccione un tipo de suelo',
+                items: ['Option 1', 'Option 2', 'Option 3'],
+                onChanged: (value) {
+                  // handle the selected value
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CustomDropdownButton(
+                hint: 'Seleccione una fase de cultivo',
+                items: ['Option 1', 'Option 2', 'Option 3'],
+                onChanged: (value) {
+                  // handle the selected value
                 },
               ),
               const SizedBox(
                 height: 30,
               ),
               CustomButton(
-                text: 'Siguiente',
+                text: 'Guardar',
                 onPressed: () {
                   // código que se ejecutará cuando se presione el botón
                 },
                 color: const Color(0xFF0AABE4),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              CustomButton(
-                text: 'Cancelar',
-                onPressed: () {
-                  // código que se ejecutará cuando se presione el botón
-                },
-                color: const Color(0xFF595959),
-              )
             ],
           ),
         ));

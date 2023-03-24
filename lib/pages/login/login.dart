@@ -14,6 +14,33 @@ class LoginPage extends StatelessWidget {
       print('Username: ${_usernameController.text}');
       print('Password: ${_passwordController.text}');
     }
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    if (username == 'admin' && password == 'admin') {
+      Navigator.pushNamed(context, '/field');
+      _usernameController.clear();
+      _passwordController.clear();
+    } else {
+      // alert dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Usuario o contraseña incorrectos'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void _register(BuildContext context) {
@@ -74,7 +101,8 @@ class LoginPage extends StatelessWidget {
                           PrimaryTextField(
                               controller: _passwordController,
                               labelText: 'Contraseña',
-                              hintText: 'Contraseña'),
+                              hintText: 'Contraseña',
+                              obscureText: true),
                           const SizedBox(height: 16.0),
                           PrimaryButton(
                             action: _login,

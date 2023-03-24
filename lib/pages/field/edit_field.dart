@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/dropdown_button.dart';
-import '../widgets/text.dart';
 
-class CreateCropScreen extends StatefulWidget {
-  const CreateCropScreen({Key? key}) : super(key: key);
+import '../../widgets/custom_button.dart';
+import '../../widgets/dropdown_button.dart';
+import '../../widgets/numeric_input.dart';
+import '../../widgets/text.dart';
+
+class EditFieldScreen extends StatefulWidget {
+  const EditFieldScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateCropScreen> createState() => _CreateCropScreen();
+  State<EditFieldScreen> createState() => _EditFieldScreen();
 }
 
-class _CreateCropScreen extends State<CreateCropScreen> {
+class _EditFieldScreen extends State<EditFieldScreen> {
   String? value;
 
   @override
@@ -32,14 +34,23 @@ class _CreateCropScreen extends State<CreateCropScreen> {
           child: ListView(
             children: [
               MyTextWidget(
-                text: 'Crear cultivo',
+                text: 'Editar campo',
                 fontSize: 30,
               ),
               const SizedBox(
                 height: 25,
               ),
+              NumericInput(
+                hintText: 'Ingresa número de área',
+                onChanged: (value) {
+                  // Haz algo con el valor ingresado
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               CustomDropdownButton(
-                hint: 'Seleccione un tipo de cultivo',
+                hint: 'Seleccione un departamento',
                 items: ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
@@ -49,7 +60,7 @@ class _CreateCropScreen extends State<CreateCropScreen> {
                 height: 20,
               ),
               CustomDropdownButton(
-                hint: 'Seleccione un tipo de suelo',
+                hint: 'Seleccione una provincia',
                 items: ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
@@ -59,7 +70,7 @@ class _CreateCropScreen extends State<CreateCropScreen> {
                 height: 20,
               ),
               CustomDropdownButton(
-                hint: 'Seleccione una fase de cultivo',
+                hint: 'Seleccione un distrito',
                 items: ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/dropdown_button.dart';
+import '../../widgets/text.dart';
 
-import '../widgets/custom_button.dart';
-import '../widgets/dropdown_button.dart';
-import '../widgets/numeric_input.dart';
-import '../widgets/text.dart';
-
-class EditFieldScreen extends StatefulWidget {
-  const EditFieldScreen({Key? key}) : super(key: key);
+class EditCropScreen extends StatefulWidget {
+  const EditCropScreen({Key? key}) : super(key: key);
 
   @override
-  State<EditFieldScreen> createState() => _EditFieldScreen();
+  State<EditCropScreen> createState() => _EditCropScreen();
 }
 
-class _EditFieldScreen extends State<EditFieldScreen> {
+class _EditCropScreen extends State<EditCropScreen> {
   String? value;
 
   @override
@@ -34,23 +32,14 @@ class _EditFieldScreen extends State<EditFieldScreen> {
           child: ListView(
             children: [
               MyTextWidget(
-                text: 'Editar campo',
+                text: 'Crear cultivo',
                 fontSize: 30,
               ),
               const SizedBox(
                 height: 25,
               ),
-              NumericInput(
-                hintText: 'Ingresa número de área',
-                onChanged: (value) {
-                  // Haz algo con el valor ingresado
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
               CustomDropdownButton(
-                hint: 'Seleccione un departamento',
+                hint: 'Seleccione un tipo de cultivo',
                 items: ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
@@ -60,7 +49,7 @@ class _EditFieldScreen extends State<EditFieldScreen> {
                 height: 20,
               ),
               CustomDropdownButton(
-                hint: 'Seleccione una provincia',
+                hint: 'Seleccione un tipo de suelo',
                 items: ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
@@ -70,7 +59,7 @@ class _EditFieldScreen extends State<EditFieldScreen> {
                 height: 20,
               ),
               CustomDropdownButton(
-                hint: 'Seleccione un distrito',
+                hint: 'Seleccione una fase de cultivo',
                 items: ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_button.dart';
-import '../widgets/dropdown_button.dart';
-import '../widgets/text.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/numeric_input.dart';
+import '../../widgets/text.dart';
+import '../../widgets/text_field.dart';
 
-class EditCropScreen extends StatefulWidget {
-  const EditCropScreen({Key? key}) : super(key: key);
+class BaseScreen extends StatefulWidget {
+  const BaseScreen({Key? key}) : super(key: key);
 
   @override
-  State<EditCropScreen> createState() => _EditCropScreen();
+  State<BaseScreen> createState() => _BaseScreenState();
 }
 
-class _EditCropScreen extends State<EditCropScreen> {
+class _BaseScreenState extends State<BaseScreen> {
   String? value;
 
   @override
@@ -32,49 +33,49 @@ class _EditCropScreen extends State<EditCropScreen> {
           child: ListView(
             children: [
               MyTextWidget(
-                text: 'Crear cultivo',
+                text: 'Crear campo',
                 fontSize: 30,
               ),
               const SizedBox(
-                height: 25,
+                height: 10,
               ),
-              CustomDropdownButton(
-                hint: 'Seleccione un tipo de cultivo',
-                items: ['Option 1', 'Option 2', 'Option 3'],
-                onChanged: (value) {
-                  // handle the selected value
-                },
+              MyTextWidget(
+                text: 'Datos generales',
+                fontSize: 15,
               ),
               const SizedBox(
                 height: 20,
               ),
-              CustomDropdownButton(
-                hint: 'Seleccione un tipo de suelo',
-                items: ['Option 1', 'Option 2', 'Option 3'],
-                onChanged: (value) {
-                  // handle the selected value
-                },
-              ),
+              InputTextField(),
               const SizedBox(
                 height: 20,
               ),
-              CustomDropdownButton(
-                hint: 'Seleccione una fase de cultivo',
-                items: ['Option 1', 'Option 2', 'Option 3'],
+              NumericInput(
+                hintText: 'Ingresa número de área',
                 onChanged: (value) {
-                  // handle the selected value
+                  // Haz algo con el valor ingresado
                 },
               ),
               const SizedBox(
                 height: 30,
               ),
               CustomButton(
-                text: 'Guardar',
+                text: 'Siguiente',
                 onPressed: () {
                   // código que se ejecutará cuando se presione el botón
                 },
                 color: const Color(0xFF0AABE4),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              CustomButton(
+                text: 'Cancelar',
+                onPressed: () {
+                  // código que se ejecutará cuando se presione el botón
+                },
+                color: const Color(0xFF595959),
+              )
             ],
           ),
         ));
