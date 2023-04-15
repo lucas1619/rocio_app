@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:rocio_app/routes.dart';
+import 'package:provider/provider.dart';
+import 'package:rocio_app/store/auth.dart';
+import 'package:rocio_app/store/field.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthStore()),
+        ChangeNotifierProvider(create: (_)=> FieldStore())
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

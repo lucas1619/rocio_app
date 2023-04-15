@@ -1,5 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:rocio_app/store/auth.dart';
+import 'package:provider/provider.dart';
+import 'package:rocio_app/components/text_field/primary_text_field.dart';
+import 'package:rocio_app/components/button/primary_button.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({Key? key}) : super(key: key);
@@ -10,20 +13,31 @@ class SignupPage extends StatelessWidget {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   // on login button pressed
-  void _register() {
-    if (kDebugMode) {
-      print('Name: ${_nameController.text}');
-      print('Username: ${_usernameController.text}');
-      print('Password: ${_passwordController.text}');
-      print('Confirm Password: ${_confirmPasswordController.text}');
+  void _register(BuildContext context) {
+    bool isRegistered = context.read<AuthStore>().register(_nameController.text,
+        _usernameController.text, _passwordController.text);
+    if (isRegistered) {
+      Navigator.pushNamed(context, '/login');
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text(
+                'Ocurrio un error al registrarse, intente nuevamente'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          );
+        },
+      );
     }
-  }
-
-  void _login(BuildContext context) {
-    if (kDebugMode) {
-      print('Register');
-    }
-    Navigator.pushNamed(context, '/login');
   }
 
   @override
@@ -60,110 +74,31 @@ class SignupPage extends StatelessWidget {
                         horizontal: 40.0, vertical: 25.0),
                     child: Column(
                       children: [
-                        TextFormField(
-                          controller: _nameController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: _nameController.clear,
-                              icon: const Icon(Icons.clear),
-                            ),
+                        PrimaryTextField(
+                            controller: _nameController,
                             labelText: 'Nombre y apellido',
-                            hintText: 'Nombre y apellido',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 24.0,
-                            ), // Padding personalizado
-                          ),
-                        ),
+                            hintText: 'Nombre y apellido'),
                         const SizedBox(height: 16.0),
-                        TextFormField(
-                          controller: _usernameController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: _usernameController.clear,
-                              icon: const Icon(Icons.clear),
-                            ),
+                        PrimaryTextField(
+                            controller: _usernameController,
                             labelText: 'Usuario',
-                            hintText: 'Usuario',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 24.0,
-                            ), // Padding personalizado
-                          ),
-                        ),
+                            hintText: 'Usuario'),
                         const SizedBox(height: 16.0),
-                        TextFormField(
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: _passwordController.clear,
-                              icon: const Icon(Icons.clear),
-                            ),
+                        PrimaryTextField(
+                            controller: _passwordController,
                             labelText: 'Contraseña',
                             hintText: 'Contraseña',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 24.0,
-                            ), // Padding personalizado
-                          ),
-                          obscureText: true,
-                        ),
+                            obscureText: true),
                         const SizedBox(height: 16.0),
-                        TextFormField(
-                          controller: _confirmPasswordController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: _confirmPasswordController.clear,
-                              icon: const Icon(Icons.clear),
-                            ),
+                        PrimaryTextField(
+                            controller: _confirmPasswordController,
                             labelText: 'Confirmar contraseña',
                             hintText: 'Confirmar contraseña',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 24.0,
-                            ), // Padding personalizado
-                          ),
-                          obscureText: true,
-                        ),
+                            obscureText: true),
                         const SizedBox(height: 16.0),
-                        ElevatedButton(
-                          onPressed: _register,
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal:
-                                    16.0), // añadir un padding horizontal
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  8.0), // agregar bordes redondeados
-                            ),
-                          ),
-                          child: const SizedBox(
-                            width: double.infinity, // ancho completo
-                            child: Text(
-                              'Registrate',
-                              textAlign: TextAlign.center, // centrar el texto
-                            ),
-                          ),
+                        PrimaryButton(
+                          action: _register,
+                          label: 'Registrate',
                         ),
                         const SizedBox(height: 25.0),
                         Row(
@@ -178,7 +113,7 @@ class SignupPage extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                _login(context);
+                                Navigator.pushNamed(context, '/login');
                               },
                               child: const Text(
                                 'Inicia Sesión',

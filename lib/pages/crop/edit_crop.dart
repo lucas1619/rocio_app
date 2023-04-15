@@ -18,7 +18,7 @@ class _EditCropScreen extends State<EditCropScreen> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -28,7 +28,7 @@ class _EditCropScreen extends State<EditCropScreen> {
           centerTitle: true,
         ),
         body: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: ListView(
             children: [
               MyTextWidget(
@@ -40,7 +40,7 @@ class _EditCropScreen extends State<EditCropScreen> {
               ),
               CustomDropdownButton(
                 hint: 'Seleccione un tipo de cultivo',
-                items: ['Option 1', 'Option 2', 'Option 3'],
+                items: const ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
                 },
@@ -50,7 +50,7 @@ class _EditCropScreen extends State<EditCropScreen> {
               ),
               CustomDropdownButton(
                 hint: 'Seleccione un tipo de suelo',
-                items: ['Option 1', 'Option 2', 'Option 3'],
+                items: const ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
                 },
@@ -60,7 +60,7 @@ class _EditCropScreen extends State<EditCropScreen> {
               ),
               CustomDropdownButton(
                 hint: 'Seleccione una fase de cultivo',
-                items: ['Option 1', 'Option 2', 'Option 3'],
+                items: const ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
                 },

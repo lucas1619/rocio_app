@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rocio_app/components/text_field/primary_text_field.dart';
 import 'package:rocio_app/components/button/primary_button.dart';
+import 'package:rocio_app/store/auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -10,19 +11,16 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   // on login button pressed
   void _login(BuildContext context) {
-    if (kDebugMode) {
-      print('Username: ${_usernameController.text}');
-      print('Password: ${_passwordController.text}');
-    }
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    if (username == 'admin' && password == 'admin') {
+    bool isLogged = context.read<AuthStore>().login(username, password);
+
+    if (isLogged) {
       Navigator.pushNamed(context, '/field');
       _usernameController.clear();
       _passwordController.clear();
     } else {
-      // alert dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -41,13 +39,6 @@ class LoginPage extends StatelessWidget {
         },
       );
     }
-  }
-
-  void _register(BuildContext context) {
-    if (kDebugMode) {
-      print('Register');
-    }
-    Navigator.pushNamed(context, '/signup');
   }
 
   @override
@@ -121,7 +112,7 @@ class LoginPage extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  _register(context);
+                                  Navigator.pushNamed(context, '/signup');
                                 },
                                 child: const Text(
                                   'Regístrate',

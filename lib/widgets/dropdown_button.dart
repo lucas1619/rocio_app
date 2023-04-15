@@ -27,12 +27,12 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         borderRadius: BorderRadius.circular(4),
       ),
       height: 60,
-      padding: EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: DropdownButton<String>(
         value: _selectedItem,
         hint: Text(widget.hint),
         isExpanded: true,
-        underline: SizedBox(),
+        underline: const SizedBox(),
         items: widget.items.map((String value) {
           return DropdownMenuItem<String>(
             value: value,

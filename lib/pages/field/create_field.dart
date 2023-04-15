@@ -19,7 +19,7 @@ class _BaseScreenState extends State<BaseScreen> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -29,7 +29,7 @@ class _BaseScreenState extends State<BaseScreen> {
           centerTitle: true,
         ),
         body: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: ListView(
             children: [
               MyTextWidget(
@@ -46,7 +46,7 @@ class _BaseScreenState extends State<BaseScreen> {
               const SizedBox(
                 height: 20,
               ),
-              InputTextField(),
+              const InputTextField(),
               const SizedBox(
                 height: 20,
               ),

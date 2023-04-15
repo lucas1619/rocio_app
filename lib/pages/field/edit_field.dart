@@ -20,7 +20,7 @@ class _EditFieldScreen extends State<EditFieldScreen> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -30,7 +30,7 @@ class _EditFieldScreen extends State<EditFieldScreen> {
           centerTitle: true,
         ),
         body: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: ListView(
             children: [
               MyTextWidget(
@@ -51,7 +51,7 @@ class _EditFieldScreen extends State<EditFieldScreen> {
               ),
               CustomDropdownButton(
                 hint: 'Seleccione un departamento',
-                items: ['Option 1', 'Option 2', 'Option 3'],
+                items: const ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
                 },
@@ -61,7 +61,7 @@ class _EditFieldScreen extends State<EditFieldScreen> {
               ),
               CustomDropdownButton(
                 hint: 'Seleccione una provincia',
-                items: ['Option 1', 'Option 2', 'Option 3'],
+                items: const ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
                 },
@@ -71,7 +71,7 @@ class _EditFieldScreen extends State<EditFieldScreen> {
               ),
               CustomDropdownButton(
                 hint: 'Seleccione un distrito',
-                items: ['Option 1', 'Option 2', 'Option 3'],
+                items: const ['Option 1', 'Option 2', 'Option 3'],
                 onChanged: (value) {
                   // handle the selected value
                 },
