@@ -5,6 +5,7 @@ class PrimaryTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
   final bool obscureText;
+  final bool numeric;
 
   const PrimaryTextField({
     Key? key,
@@ -12,6 +13,7 @@ class PrimaryTextField extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     this.obscureText = false,
+    this.numeric = false
   }) : super(key: key);
 
   @override
@@ -19,6 +21,13 @@ class PrimaryTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      keyboardType: numeric ? TextInputType.number : TextInputType.name,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Este campo no puede estar vacío';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

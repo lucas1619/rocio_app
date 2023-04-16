@@ -1,83 +1,155 @@
 import 'package:flutter/material.dart';
-import '../../widgets/custom_button.dart';
-import '../../widgets/numeric_input.dart';
-import '../../widgets/text.dart';
-import '../../widgets/text_field.dart';
+import 'package:rocio_app/components/app_bar/only_back_app_bar.dart';
+import 'package:rocio_app/components/text_field/primary_text_field.dart';
+import 'package:rocio_app/components/button/primary_button.dart';
+import 'package:rocio_app/components/button/secondary_button.dart';
+import 'package:rocio_app/domain/field/field.dart';
+import 'package:rocio_app/store/field.dart';
+import 'package:provider/provider.dart';
 
-class BaseScreen extends StatefulWidget {
-  const BaseScreen({Key? key}) : super(key: key);
+class CreateFieldPage extends StatefulWidget {
+  const CreateFieldPage({Key? key}) : super(key: key);
 
   @override
-  State<BaseScreen> createState() => _BaseScreenState();
+  State<CreateFieldPage> createState() => _CreateFieldPageState();
 }
 
-class _BaseScreenState extends State<BaseScreen> {
-  String? value;
-
+class _CreateFieldPageState extends State<CreateFieldPage> {
+  // step 1
+  final TextEditingController _nameFieldController = TextEditingController();
+  final TextEditingController _areaFieldController = TextEditingController();
+  // step 2
+  final TextEditingController _departmentFieldController = TextEditingController();
+  final TextEditingController _provinceFieldController = TextEditingController();
+  final TextEditingController _districtFieldController = TextEditingController();
+  int _currentStep = 0;
+  List<Step> buildSteps() {
+    return [
+      Step(
+        title: const SizedBox.shrink(),
+        state: StepState.indexed,
+        content: Column(
+          children: [
+            PrimaryTextField(
+                controller: _nameFieldController,
+                labelText: 'Nombre',
+                hintText: 'Nombre'
+            ),
+            const SizedBox(height: 10.0),
+            PrimaryTextField(
+                controller: _areaFieldController,
+                labelText: 'Área m2',
+                hintText: 'Área m2',
+                numeric: true,
+            ),
+          ],
+        ),
+        isActive: _currentStep >= 0,
+      ),
+      Step(
+        title: const SizedBox.shrink(),
+        content: Column(
+          children: [
+            PrimaryTextField(
+              controller: _departmentFieldController,
+              labelText: 'Departamento',
+              hintText: 'Departamento',
+            ),
+            const SizedBox(height: 10.0),
+            PrimaryTextField(
+              controller: _provinceFieldController,
+              labelText: 'Provincia',
+              hintText: 'Provincia',
+            ),
+            const SizedBox(height: 10.0),
+            PrimaryTextField(
+              controller: _districtFieldController,
+              labelText: 'Distrito',
+              hintText: 'Distrito',
+            ),
+          ],
+        ),
+        state: StepState.indexed,
+        isActive: _currentStep >= 1,
+      ),
+    ];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
+      appBar: const OnlyBackAppBar(),
+      body: Stepper(
+        currentStep: _currentStep,
+        elevation: 0,
+        onStepTapped: (step) {
+          setState(() {
+            _currentStep = step;
+          });
+        },
+        onStepContinue: () {
+          setState(() {
+            if (_currentStep < 1) {
+              _currentStep++;
+            } else {
+              // Formulario completado
+              bool created = Provider.of<FieldStore>(context, listen: false).createField(
+                  Field(
+                      address: '${_departmentFieldController.text}, ${_provinceFieldController.text}, ${_districtFieldController.text}',
+                      name: _nameFieldController.text,
+                      fieldSize: 1,
+                  )
+              );
+              if(created) {
+                Navigator.pushNamed(context, '/field');
+              } else {
+                showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Error'),
+                    content: const Text('Ocurrio un error al crear el campo, inténtalo nuevamente o comunicate con soporte'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('Ok'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+              }
+
+            }
+          });
+        },
+        onStepCancel: () {
+          setState(() {
+            if (_currentStep > 0) {
+              _currentStep--;
+            } else {
+              _currentStep = 0;
               Navigator.pop(context);
-            },
-            color: Colors.black,
-          ),
-          title: const Text("Form"),
-          centerTitle: true,
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(20.0),
-          child: ListView(
+            }
+          });
+        },
+        controlsBuilder: (BuildContext context, ControlsDetails controlsDetails) {
+          return Column(
             children: [
-              MyTextWidget(
-                text: 'Crear campo',
-                fontSize: 30,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              MyTextWidget(
-                text: 'Datos generales',
-                fontSize: 15,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const InputTextField(),
-              const SizedBox(
-                height: 20,
-              ),
-              NumericInput(
-                hintText: 'Ingresa número de área',
-                onChanged: (value) {
-                  // Haz algo con el valor ingresado
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              CustomButton(
-                text: 'Siguiente',
-                onPressed: () {
-                  // código que se ejecutará cuando se presione el botón
-                },
-                color: const Color(0xFF0AABE4),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              CustomButton(
-                text: 'Cancelar',
-                onPressed: () {
-                  // código que se ejecutará cuando se presione el botón
-                },
-                color: const Color(0xFF595959),
-              )
+              const SizedBox(height: 20.0),
+              PrimaryButton(action: (BuildContext context) => {
+                controlsDetails.onStepContinue!()
+              }, label: _currentStep < 1 ? 'Siguiente' : 'Guardar'),
+              SecondaryButton(action: (BuildContext context) => {
+                controlsDetails.onStepCancel!()
+              }, label: 'Cancelar')
             ],
-          ),
-        ));
+          );
+        },
+        steps: buildSteps(),
+        type: StepperType.horizontal,
+      ),
+    );
   }
 }

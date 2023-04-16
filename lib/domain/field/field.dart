@@ -1,15 +1,16 @@
 class Field {
   int id;
   String name;
-  String address;
+  final String address;
   int fieldSize;
   int humidity;
   int temperature;
   Field(
-      {required this.id,
+      {this.id = 0,
       required this.address,
       required this.name,
       required this.fieldSize,
-      required this.humidity,
-      required this.temperature});
+      this.humidity = 0,
+      this.temperature = 0
+      });
 }

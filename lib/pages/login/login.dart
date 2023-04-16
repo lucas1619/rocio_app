@@ -117,7 +117,6 @@ class LoginPage extends StatelessWidget {
                                 child: const Text(
                                   'Regístrate',
                                   style: TextStyle(
-                                    color: Color(0xFF595959),
                                     fontSize: 14.0,
                                   ),
                                 ),
