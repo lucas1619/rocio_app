@@ -4,6 +4,7 @@ import 'package:rocio_app/components/text_field/primary_text_field.dart';
 import 'package:rocio_app/components/button/primary_button.dart';
 import 'package:rocio_app/components/button/secondary_button.dart';
 import 'package:rocio_app/domain/field/field.dart';
+import 'package:rocio_app/store/auth.dart';
 import 'package:rocio_app/store/field.dart';
 import 'package:provider/provider.dart';
 
@@ -96,10 +97,14 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
                   Field(
                       address: '${_departmentFieldController.text}, ${_provinceFieldController.text}, ${_districtFieldController.text}',
                       name: _nameFieldController.text,
-                      fieldSize: 1,
+                      fieldSize: int.parse(_areaFieldController.text),
                   )
               );
               if(created) {
+                Provider.of<FieldStore>(context, listen: false)
+                    .getFields(
+                      Provider.of<AuthStore>(context, listen: false).user.id
+                );
                 Navigator.pushNamed(context, '/field');
               } else {
                 showDialog(
@@ -140,7 +145,7 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
               const SizedBox(height: 20.0),
               PrimaryButton(action: (BuildContext context) => {
                 controlsDetails.onStepContinue!()
-              }, label: _currentStep < 1 ? 'Siguiente' : 'Guardar'),
+              }, label: _currentStep < 1 ? 'Siguiente' : 'Guardar', parentContext: context,),
               SecondaryButton(action: (BuildContext context) => {
                 controlsDetails.onStepCancel!()
               }, label: 'Cancelar')

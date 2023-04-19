@@ -9,20 +9,23 @@ class FieldStore with ChangeNotifier, DiagnosticableTreeMixin {
   List<Field> get fields => [..._fields];
   bool get noFields => _fields.isEmpty;
 
-  void updateSelected() {
-    if(_fields.isNotEmpty) {
-      selectedField = fields[0];
+  void updateSelected({int fieldId = -1}) {
+    if(_fields.isNotEmpty && fieldId == -1) {
+      selectedField = _fields[0];
+    } else if(_fields.isNotEmpty && fieldId != -1) {
+      selectedField = _fields.firstWhere((field) => field.id == fieldId);
     }
+    notifyListeners();
   }
   void getFields(int userId) {
     // call api
-    _fields = [];
+    //_fields = [];
     updateSelected();
     notifyListeners();
   }
 
   bool createField(Field field){
-    field.id = fields.length;
+    field.id = _fields.length + 1;
     _fields.add(field);
     notifyListeners();
     return true;
@@ -33,6 +36,7 @@ class FieldStore with ChangeNotifier, DiagnosticableTreeMixin {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(IterableProperty('user', fields));
+    properties.add(IterableProperty('fields', fields));
+    properties.add(EnumProperty('selectedField', selectedField));
   }
 }

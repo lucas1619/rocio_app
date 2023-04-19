@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rocio_app/store/field.dart';
 import 'package:provider/provider.dart';
-import 'package:rocio_app/domain/field/field.dart';
 
 class AppBarField extends StatefulWidget implements PreferredSizeWidget {
   const AppBarField();
@@ -10,13 +9,10 @@ class AppBarField extends StatefulWidget implements PreferredSizeWidget {
   AppBarFieldState createState() => AppBarFieldState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(115);
+  Size get preferredSize => const Size.fromHeight(120);
 }
 
 class AppBarFieldState extends State<AppBarField> {
-  int _fieldId = 0;
-  Field selected =
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -24,75 +20,137 @@ class AppBarFieldState extends State<AppBarField> {
       toolbarHeight: 300,
       title: DropdownButton(
         // change icon
-        icon: const Icon(Icons.expand_more, color: Colors.black),
-        value: _fieldId,
+        icon: const Icon(Icons.expand_more, color: Colors.white),
+        dropdownColor: const Color(0xFF595959),
+        isExpanded: false,
+        alignment: AlignmentDirectional.centerStart,
+        underline: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+        ),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+        value: Provider.of<FieldStore>(context).selectedField.id,
         items: [
           ...Provider.of<FieldStore>(context).fields
               .map((value) => DropdownMenuItem(
             // text color black
             value: value.id,
-            child: Text(value.name,
-                style: const TextStyle(color: Colors.black)),
+            child: Text(value.name),
           )).toList(),
           DropdownMenuItem(
             value: -1,
             child: Row(
               children: const [
-                Icon(Icons.add_circle_outline_sharp, color: Colors.black,),
+                Icon(Icons.add_circle_outline_sharp),
                 SizedBox(width: 8),
                 Text('Crear campo'),
               ],
             ),
           ),
         ],
-        onChanged: (value) {
-          if(value == -1) {
+        onChanged: (fieldId) {
+          if(fieldId == -1) {
             Navigator.pushNamed(context, '/field/create');
           }
-          setState(() {
-            _fieldId = value!;
-            selected = Provider.of<FieldStore>(context).fields.firstWhere(
-                    (element) => element.id == _fieldId,
-                orElse: () => Field(address: 'a', name: 'a', fieldSize: 10)
-            );
-          });
+          Provider.of<FieldStore>(context, listen: false).updateSelected(fieldId: fieldId!);
+
         },
       ),
       bottom:  PreferredSize(
         preferredSize: const Size.fromHeight(200), // Alto del AppBar
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(selected.address),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.area_chart),
-                    Text(selected.fieldSize.toString())
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.water_drop),
-                    Text(selected.humidity.toString())
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.sunny),
-                    Text(selected.temperature.toString())
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16, left: 16, bottom: 10),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      Provider.of<FieldStore>(context).selectedField.address,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Icon(
+                          Icons.aspect_ratio,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '${Provider.of<FieldStore>(context).selectedField.fieldSize.toString()} m2',
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Icon(
+                          Icons.water_drop,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '${Provider.of<FieldStore>(context).selectedField.humidity.toString()}%',
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Icon(
+                          Icons.sunny,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '${Provider.of<FieldStore>(context).selectedField.temperature.toString()} °C',
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
       ),
     );
   }

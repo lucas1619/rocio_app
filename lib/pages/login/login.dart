@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rocio_app/components/text_field/primary_text_field.dart';
 import 'package:rocio_app/components/button/primary_button.dart';
 import 'package:rocio_app/store/auth.dart';
+import 'package:rocio_app/store/field.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
@@ -14,9 +15,12 @@ class LoginPage extends StatelessWidget {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    bool isLogged = context.read<AuthStore>().login(username, password);
+    bool isLogged = Provider.of<AuthStore>(context, listen: false)
+        .login(username, password);
 
     if (isLogged) {
+      Provider.of<FieldStore>(context, listen: false)
+          .getFields(Provider.of<AuthStore>(context, listen: false).user.id);
       Navigator.pushNamed(context, '/field');
       _usernameController.clear();
       _passwordController.clear();
@@ -98,6 +102,7 @@ class LoginPage extends StatelessWidget {
                           PrimaryButton(
                             action: _login,
                             label: 'Iniciar Sesión',
+                            parentContext: context,
                           ),
                           const SizedBox(height: 25.0),
                           Row(

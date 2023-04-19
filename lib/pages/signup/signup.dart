@@ -101,6 +101,7 @@ class SignupPage extends StatelessWidget {
                         PrimaryButton(
                           action: _register,
                           label: 'Registrate',
+                          parentContext: context,
                         ),
                         const SizedBox(height: 25.0),
                         Row(
