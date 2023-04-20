@@ -11,6 +11,5 @@ class Field {
       required this.name,
       required this.fieldSize,
       this.humidity = 0,
-      this.temperature = 0
-      });
+      this.temperature = 0});
 }
