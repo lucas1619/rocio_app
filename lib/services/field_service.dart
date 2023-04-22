@@ -10,4 +10,12 @@ class FieldService extends Api {
     }
     return Field.listFromJson(response.body);
   }
+
+  Future<Field> createField(Field field) async {
+    final http.Response response = await post('/field/', field.toMap());
+    if (response.statusCode == 400) {
+      throw Exception('Intentelo nuevamente');
+    }
+    return Field.fromJson(response.body);
+  }
 }

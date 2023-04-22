@@ -15,16 +15,7 @@ class Field {
       this.humidity = 0,
       this.temperature = 0});
 
-  factory Field.fromJson(Map<String, dynamic> json) {
-    return Field(
-      id: json['id'],
-      address: json['address'],
-      name: json['name'],
-      fieldSize: json['fieldSize'],
-      humidity: json['humidity'],
-      temperature: json['temperature'],
-    );
-  }
+  factory Field.fromJson(String str) => Field.fromMap(json.decode(str));
 
   static List<Field> listFromJson(String json) {
     List<Field> fields = [];
