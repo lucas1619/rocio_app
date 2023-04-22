@@ -15,11 +15,11 @@ class _CreateCropPageState extends State<CreateCropPage> {
   String _faseCultivo = 'Germinacion';
 
   final List<String> _tiposCultivo = [
-    'Alimentarios',
     'Ornamentales',
+    'Alimentarios',
     'Textiles'
   ];
-  final List<String> _tiposSuelo = ['Franco', 'Arcilloso', 'Arenoso'];
+  final List<String> _tiposSuelo = ['Arcilloso', 'Franco', 'Arenoso'];
   final List<String> _fasesCultivo = [
     'Germinacion',
     'Ahijamiento',

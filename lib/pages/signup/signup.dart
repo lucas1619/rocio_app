@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rocio_app/components/text_field/primary_text_field.dart';
 import 'package:rocio_app/components/button/primary_button.dart';
 import 'package:rocio_app/components/app_bar/only_back_app_bar.dart';
+import 'package:rocio_app/domain/auth/user.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({Key? key}) : super(key: key);
@@ -14,19 +15,18 @@ class SignupPage extends StatelessWidget {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   // on login button pressed
-  void _register(BuildContext context) {
-    bool isRegistered = context.read<AuthStore>().register(_nameController.text,
-        _usernameController.text, _passwordController.text);
-    if (isRegistered) {
+  Future<void> _register(BuildContext context) async {
+    try {
+      await context.read<AuthStore>().register(_nameController.text,
+          _usernameController.text, _passwordController.text);
       Navigator.pushNamed(context, '/login');
-    } else {
+    } catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: const Text(
-                'Ocurrio un error al registrarse, intente nuevamente'),
+            content: const Text('Usuario o contraseña incorrectos'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -47,96 +47,96 @@ class SignupPage extends StatelessWidget {
         appBar: OnlyBackAppBar(),
         body: SingleChildScrollView(
             child: Padding(
-      padding: const EdgeInsets.only(top: 0),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  width: 150.0,
-                  height: 150.0,
-                ),
-                const SizedBox(height: 25.0),
-                const Text(
-                  'Registrate',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40.0, vertical: 25.0),
-                    child: Column(
-                      children: [
-                        PrimaryTextField(
-                            controller: _nameController,
-                            labelText: 'Nombre y apellido',
-                            hintText: 'Nombre y apellido'),
-                        const SizedBox(height: 16.0),
-                        PrimaryTextField(
-                            controller: _usernameController,
-                            labelText: 'Usuario',
-                            hintText: 'Usuario'),
-                        const SizedBox(height: 16.0),
-                        PrimaryTextField(
-                            controller: _passwordController,
-                            labelText: 'Contraseña',
-                            hintText: 'Contraseña',
-                            obscureText: true),
-                        const SizedBox(height: 16.0),
-                        PrimaryTextField(
-                            controller: _confirmPasswordController,
-                            labelText: 'Confirmar contraseña',
-                            hintText: 'Confirmar contraseña',
-                            obscureText: true),
-                        const SizedBox(height: 16.0),
-                        PrimaryButton(
-                          action: _register,
-                          label: 'Registrate',
-                          parentContext: context,
-                        ),
-                        const SizedBox(height: 25.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.only(top: 0),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/logo.png',
+                      width: 150.0,
+                      height: 150.0,
+                    ),
+                    const SizedBox(height: 25.0),
+                    const Text(
+                      'Registrate',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 25.0),
+                        child: Column(
                           children: [
-                            const Text(
-                              '¿Ya tienes una cuenta?',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14.0,
-                              ),
+                            PrimaryTextField(
+                                controller: _nameController,
+                                labelText: 'Nombre y apellido',
+                                hintText: 'Nombre y apellido'),
+                            const SizedBox(height: 16.0),
+                            PrimaryTextField(
+                                controller: _usernameController,
+                                labelText: 'Usuario',
+                                hintText: 'Usuario'),
+                            const SizedBox(height: 16.0),
+                            PrimaryTextField(
+                                controller: _passwordController,
+                                labelText: 'Contraseña',
+                                hintText: 'Contraseña',
+                                obscureText: true),
+                            const SizedBox(height: 16.0),
+                            PrimaryTextField(
+                                controller: _confirmPasswordController,
+                                labelText: 'Confirmar contraseña',
+                                hintText: 'Confirmar contraseña',
+                                obscureText: true),
+                            const SizedBox(height: 16.0),
+                            PrimaryButton(
+                              action: _register,
+                              label: 'Registrate',
+                              parentContext: context,
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/login');
-                              },
-                              child: const Text(
-                                'Inicia Sesión',
-                                style: TextStyle(
-                                  color: Color(0xFF595959),
-                                  fontSize: 14.0,
+                            const SizedBox(height: 25.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  '¿Ya tienes una cuenta?',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.0,
+                                  ),
                                 ),
-                              ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/login');
+                                  },
+                                  child: const Text(
+                                    'Inicia Sesión',
+                                    style: TextStyle(
+                                      color: Color(0xFF595959),
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    )));
+        )));
   }
 }

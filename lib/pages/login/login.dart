@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rocio_app/components/text_field/primary_text_field.dart';
 import 'package:rocio_app/components/button/primary_button.dart';
+import 'package:rocio_app/domain/auth/user.dart';
 import 'package:rocio_app/store/auth.dart';
 import 'package:rocio_app/store/field.dart';
 import 'package:provider/provider.dart';
@@ -11,20 +12,20 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   // on login button pressed
-  void _login(BuildContext context) {
+  Future<void> _login(BuildContext context) async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    bool isLogged = Provider.of<AuthStore>(context, listen: false)
-        .login(username, password);
-
-    if (isLogged) {
-      Provider.of<FieldStore>(context, listen: false)
-          .getFields(Provider.of<AuthStore>(context, listen: false).user.id);
+    try {
+      User user = await Provider.of<AuthStore>(context, listen: false)
+          .login(username, password);
+      // ignore: use_build_context_synchronously
+      await Provider.of<FieldStore>(context, listen: false).getFields(user.id);
+      // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, '/field');
       _usernameController.clear();
       _passwordController.clear();
-    } else {
+    } catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
