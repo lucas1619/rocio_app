@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rocio_app/components/crop/crop_card.dart';
+import 'package:rocio_app/store/crop.dart';
 import 'package:rocio_app/store/field.dart';
 
 class CropList extends StatefulWidget {
@@ -43,11 +45,25 @@ class _CropListState extends State<CropList> {
             )
           ],
         ),
-        Expanded(
-          child: ListView(
-            children: [Text('foalaasd')],
-          ),
-        )
+        Builder(builder: (BuildContext context) {
+          final cropStore = Provider.of<CropStore>(context);
+          if (cropStore.crops.isEmpty) {
+            return const Text('No hay cultivos, porfavor crea uno');
+          } else {
+            return Expanded(
+              child: ListView(
+                children: cropStore.crops
+                    .map((e) => CropCard(
+                        title: e.name,
+                        routeName: '/login',
+                        tipoCultivo: e.cropType,
+                        tipoSuelo: e.soilType,
+                        faseCultivo: e.growthStage))
+                    .toList(),
+              ),
+            );
+          }
+        }),
       ]),
     );
   }

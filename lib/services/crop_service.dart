@@ -14,7 +14,8 @@ class CropService extends Api {
   }
 
   Future<List<Crop>> getCrops(int fieldId) async {
-    final http.Response response = await get('/crop/?fieldId=$fieldId');
+    final http.Response response = await get('/crop/$fieldId/all');
+    print(response.body);
     if (response.statusCode == 400) {
       throw Exception('Intentelo nuevamente');
     }

@@ -8,7 +8,7 @@ class FieldService extends Api {
     if (response.statusCode == 400) {
       throw Exception('Intentelo nuevamente');
     }
-    return Field.listFromJsonPartial(response.body);
+    return Field.listFromJson(response.body);
   }
 
   Future<Field> createField(Field field, int userId) async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rocio_app/store/crop.dart';
 import 'package:rocio_app/store/field.dart';
 import 'package:provider/provider.dart';
 
@@ -58,12 +59,35 @@ class AppBarFieldState extends State<AppBarField> {
             ),
           ),
         ],
-        onChanged: (fieldId) {
+        onChanged: (fieldId) async {
           if (fieldId == -1) {
             Navigator.pushNamed(context, '/field/create');
           }
-          Provider.of<FieldStore>(context, listen: false)
-              .updateSelected(fieldId: fieldId!);
+          final fieldStore = Provider.of<FieldStore>(context, listen: false);
+          fieldStore.updateSelected(fieldId: fieldId!);
+          try {
+            await Provider.of<CropStore>(context, listen: false)
+                .getCrops(fieldStore.selectedField.id);
+          } catch (e) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content: const Text(
+                      'Ocurrio un error inesperado, intente de nuevo'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Aceptar'),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         },
       ),
       bottom: PreferredSize(
@@ -78,9 +102,7 @@ class AppBarFieldState extends State<AppBarField> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
-                        Provider.of<FieldStore>(context)
-                            .selectedField
-                            .locationId,
+                        Provider.of<FieldStore>(context).selectedField.adress,
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
