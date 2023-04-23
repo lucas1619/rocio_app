@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rocio_app/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:rocio_app/store/auth.dart';
+import 'package:rocio_app/store/crop.dart';
 import 'package:rocio_app/store/field.dart';
 
 void main() {
@@ -9,7 +10,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthStore()),
-        ChangeNotifierProvider(create: (_) => FieldStore())
+        ChangeNotifierProvider(create: (_) => FieldStore()),
+        ChangeNotifierProvider(create: (_) => CropStore())
       ],
       child: const MyApp(),
     ),

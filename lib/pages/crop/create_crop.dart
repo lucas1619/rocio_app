@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rocio_app/components/app_bar/only_back_app_bar.dart';
 import 'package:rocio_app/components/select/primary_select.dart';
+import 'package:rocio_app/components/text_field/primary_text_field.dart';
+
+import 'package:rocio_app/domain/crop/crop.dart';
+
+import 'package:rocio_app/store/crop.dart';
+import 'package:rocio_app/store/field.dart';
 
 class CreateCropPage extends StatefulWidget {
   const CreateCropPage({Key? key}) : super(key: key);
@@ -10,6 +17,8 @@ class CreateCropPage extends StatefulWidget {
 }
 
 class _CreateCropPageState extends State<CreateCropPage> {
+  final TextEditingController _nameController = TextEditingController();
+
   String _tipoCultivo = 'Alimentarios';
   String _tipoSuelo = 'Franco';
   String _faseCultivo = 'Germinacion';
@@ -40,6 +49,11 @@ class _CreateCropPageState extends State<CreateCropPage> {
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 30),
+            PrimaryTextField(
+                controller: _nameController,
+                labelText: 'Nombre',
+                hintText: 'Nombre'),
+            const SizedBox(height: 20),
             PrimarySelect(
               value: _tipoCultivo,
               onChanged: (String? newValue) {
@@ -74,8 +88,40 @@ class _CreateCropPageState extends State<CreateCropPage> {
             ),
             const SizedBox(height: 30),
             ElevatedButton(
-              onPressed: () {
-                //Aquí puedes guardar los datos del formulario
+              onPressed: () async {
+                try {
+                  //Aquí puedes guardar los datos del formulario
+                  await Provider.of<CropStore>(context, listen: false)
+                      .createCrop(Crop(
+                          name: _nameController.text,
+                          cropType: _tipoCultivo,
+                          soilType: _tipoSuelo,
+                          growthStage: _faseCultivo,
+                          fieldId:
+                              Provider.of<FieldStore>(context, listen: false)
+                                  .selectedField
+                                  .id));
+                  Navigator.pop(context);
+                } catch (e) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Error'),
+                        content: const Text(
+                            'Ocurrio un error al guardar, intente de nuevo'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Aceptar'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
