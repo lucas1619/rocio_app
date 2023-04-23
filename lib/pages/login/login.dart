@@ -23,8 +23,6 @@ class LoginPage extends StatelessWidget {
       await Provider.of<FieldStore>(context, listen: false).getFields(user.id);
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, '/field');
-      _usernameController.clear();
-      _passwordController.clear();
     } catch (e) {
       showDialog(
         context: context,
@@ -43,6 +41,9 @@ class LoginPage extends StatelessWidget {
           );
         },
       );
+    } finally {
+      _usernameController.clear();
+      _passwordController.clear();
     }
   }
 

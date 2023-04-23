@@ -20,9 +20,12 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
   final TextEditingController _nameFieldController = TextEditingController();
   final TextEditingController _areaFieldController = TextEditingController();
   // step 2
-  final TextEditingController _departmentFieldController = TextEditingController();
-  final TextEditingController _provinceFieldController = TextEditingController();
-  final TextEditingController _districtFieldController = TextEditingController();
+  final TextEditingController _departmentFieldController =
+      TextEditingController();
+  final TextEditingController _provinceFieldController =
+      TextEditingController();
+  final TextEditingController _districtFieldController =
+      TextEditingController();
   int _currentStep = 0;
   List<Step> buildSteps() {
     return [
@@ -34,14 +37,13 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
             PrimaryTextField(
                 controller: _nameFieldController,
                 labelText: 'Nombre',
-                hintText: 'Nombre'
-            ),
+                hintText: 'Nombre'),
             const SizedBox(height: 10.0),
             PrimaryTextField(
-                controller: _areaFieldController,
-                labelText: 'Área m2',
-                hintText: 'Área m2',
-                numeric: true,
+              controller: _areaFieldController,
+              labelText: 'Área m2',
+              hintText: 'Área m2',
+              numeric: true,
             ),
           ],
         ),
@@ -75,6 +77,44 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
       ),
     ];
   }
+
+  Future<void> _createField(BuildContext context) async {
+    try {
+      await Provider.of<FieldStore>(context, listen: false).createField(
+          Field(
+            locationId: '010109',
+            name: _nameFieldController.text,
+            area: int.parse(_areaFieldController.text),
+          ),
+          Provider.of<AuthStore>(context, listen: false).user.id);
+      // ignore: use_build_context_synchronously
+      await Provider.of<FieldStore>(context, listen: false).getFields(
+          // ignore: use_build_context_synchronously
+          Provider.of<AuthStore>(context, listen: false).user.id);
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, '/field');
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text(
+                'Ocurrio un error al crear el campo, inténtalo nuevamente o comunicate con soporte'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,39 +133,7 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
               _currentStep++;
             } else {
               // Formulario completado
-              bool created = Provider.of<FieldStore>(context, listen: false).createField(
-                  Field(
-                      address: '${_departmentFieldController.text}, ${_provinceFieldController.text}, ${_districtFieldController.text}',
-                      name: _nameFieldController.text,
-                      fieldSize: int.parse(_areaFieldController.text),
-                  )
-              );
-              if(created) {
-                Provider.of<FieldStore>(context, listen: false)
-                    .getFields(
-                      Provider.of<AuthStore>(context, listen: false).user.id
-                );
-                Navigator.pushNamed(context, '/field');
-              } else {
-                showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Error'),
-                    content: const Text('Ocurrio un error al crear el campo, inténtalo nuevamente o comunicate con soporte'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text('Ok'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-              }
-
+              _createField(context);
             }
           });
         },
@@ -139,16 +147,21 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
             }
           });
         },
-        controlsBuilder: (BuildContext context, ControlsDetails controlsDetails) {
+        controlsBuilder:
+            (BuildContext context, ControlsDetails controlsDetails) {
           return Column(
             children: [
               const SizedBox(height: 20.0),
-              PrimaryButton(action: (BuildContext context) => {
-                controlsDetails.onStepContinue!()
-              }, label: _currentStep < 1 ? 'Siguiente' : 'Guardar', parentContext: context,),
-              SecondaryButton(action: (BuildContext context) => {
-                controlsDetails.onStepCancel!()
-              }, label: 'Cancelar')
+              PrimaryButton(
+                action: (BuildContext context) =>
+                    {controlsDetails.onStepContinue!()},
+                label: _currentStep < 1 ? 'Siguiente' : 'Guardar',
+                parentContext: context,
+              ),
+              SecondaryButton(
+                  action: (BuildContext context) =>
+                      {controlsDetails.onStepCancel!()},
+                  label: 'Cancelar')
             ],
           );
         },

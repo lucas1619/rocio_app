@@ -8,14 +8,17 @@ class FieldService extends Api {
     if (response.statusCode == 400) {
       throw Exception('Intentelo nuevamente');
     }
-    return Field.listFromJson(response.body);
+    return Field.listFromJsonPartial(response.body);
   }
 
-  Future<Field> createField(Field field) async {
-    final http.Response response = await post('/field/', field.toMap());
+  Future<Field> createField(Field field, int userId) async {
+    final http.Response response = await post('/field/', {
+      ...field.toPartialMap(),
+      'user_id': userId,
+    });
     if (response.statusCode == 400) {
       throw Exception('Intentelo nuevamente');
     }
-    return Field.fromJson(response.body);
+    return Field.fromJsonPartial(response.body);
   }
 }

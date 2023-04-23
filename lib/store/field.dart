@@ -5,8 +5,7 @@ import 'package:rocio_app/services/field_service.dart';
 class FieldStore with ChangeNotifier, DiagnosticableTreeMixin {
   List<Field> _fields = [];
 
-  Field selectedField =
-      Field(address: 'Direccion', name: 'Nombre', fieldSize: 0);
+  Field selectedField = Field(locationId: 'Direccion', name: 'Nombre', area: 0);
 
   List<Field> get fields => [..._fields];
   bool get noFields => _fields.isEmpty;
@@ -28,11 +27,12 @@ class FieldStore with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  bool createField(Field field) {
-    field.id = _fields.length + 1;
-    _fields.add(field);
+  Future<Field> createField(Field field, int userId) async {
+    FieldService fieldService = FieldService();
+    Field newField = await fieldService.createField(field, userId);
+    _fields.add(newField);
     notifyListeners();
-    return true;
+    return newField;
   }
 
   /// Makes `Counter` readable inside the devtools by listing all of its properties
