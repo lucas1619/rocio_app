@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:rocio_app/utils/images_crop.dart';
 
 class CropCard extends StatelessWidget {
   final String title;
-  final String routeName;
   final String tipoCultivo;
   final String tipoSuelo;
   final String faseCultivo;
+  final Function(BuildContext) onTap;
 
   CropCard({
     Key? key,
     required this.title,
-    required this.routeName,
     required this.tipoCultivo,
     required this.tipoSuelo,
     required this.faseCultivo,
+    required this.onTap,
   }) : super(key: key);
-
-  final Map<String, String> images = {
-    "Alimentarios": 'assets/images/alimentario.jpg',
-    "Ornamentales": 'assets/images/ornamental.png',
-    "Textiles": 'assets/images/textil.jpg',
-  };
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, routeName);
+        onTap(context);
       },
       child: Card(
         child: Padding(
@@ -54,22 +49,25 @@ class CropCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
+                  Row(
                     children: [
-                      const Icon(Icons.favorite),
-                      Text(tipoCultivo),
+                      const Icon(Icons.forest_outlined),
+                      const SizedBox(width: 3.0),
+                      Text(tipoCultivo, style: const TextStyle(fontSize: 11)),
                     ],
                   ),
-                  Column(
+                  Row(
                     children: [
-                      const Icon(Icons.share),
-                      Text(tipoSuelo),
+                      const Icon(Icons.spa_outlined),
+                      const SizedBox(width: 3.0),
+                      Text(tipoSuelo, style: TextStyle(fontSize: 11)),
                     ],
                   ),
-                  Column(
+                  Row(
                     children: [
-                      const Icon(Icons.comment),
-                      Text(faseCultivo),
+                      const Icon(Icons.speed),
+                      const SizedBox(width: 3.0),
+                      Text(faseCultivo, style: const TextStyle(fontSize: 11)),
                     ],
                   ),
                 ],

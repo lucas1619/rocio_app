@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:rocio_app/pages/crop/crop.dart';
 import 'package:rocio_app/pages/login/login.dart';
 import 'package:rocio_app/pages/signup/signup.dart';
 import 'package:rocio_app/pages/field/field.dart';
@@ -10,5 +11,6 @@ final Map<String, WidgetBuilder> routes = {
   '/signup': (BuildContext context) => SignupPage(),
   '/field': (BuildContext context) => const FieldPage(),
   '/field/create': (BuildContext context) => const CreateFieldPage(),
-  '/crop/create': (BuildContext context) => const CreateCropPage()
+  '/crop/create': (BuildContext context) => const CreateCropPage(),
+  '/crop': (BuildContext context) => const CropPage(),
 };

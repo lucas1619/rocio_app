@@ -82,7 +82,7 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
     try {
       await Provider.of<FieldStore>(context, listen: false).createField(
           Field(
-            locationId: '010109',
+            locationId: '150109',
             name: _nameFieldController.text,
             area: int.parse(_areaFieldController.text),
           ),

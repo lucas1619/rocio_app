@@ -55,7 +55,10 @@ class _CropListState extends State<CropList> {
                 children: cropStore.crops
                     .map((e) => CropCard(
                         title: e.name,
-                        routeName: '/login',
+                        onTap: (BuildContext context) {
+                          cropStore.updateSelected(cropId: e.id);
+                          Navigator.pushNamed(context, '/crop');
+                        },
                         tipoCultivo: e.cropType,
                         tipoSuelo: e.soilType,
                         faseCultivo: e.growthStage))
