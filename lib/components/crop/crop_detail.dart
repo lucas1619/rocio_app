@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rocio_app/components/crop/crop_detail_card.dart';
 import 'package:rocio_app/store/crop.dart';
 import 'package:rocio_app/store/field.dart';
+import 'package:rocio_app/store/websocket.dart';
 import 'package:rocio_app/utils/humidity_thresholds.dart';
 
 class CropDetails extends StatelessWidget {
@@ -12,6 +13,7 @@ class CropDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final cropStoreOff = Provider.of<CropStore>(context, listen: false);
     final fieldStoreOff = Provider.of<FieldStore>(context, listen: false);
+    final webSocketProvider = Provider.of<WebSocketStore>(context);
     return Padding(
         padding: const EdgeInsets.all(15),
         child: Column(
@@ -25,11 +27,11 @@ class CropDetails extends StatelessWidget {
                   width: 100,
                   child: Stack(
                     children: [
-                      const Positioned.fill(
+                      Positioned.fill(
                           child: CircularProgressIndicator(
-                        value: 0.3,
-                        backgroundColor: Color(0xFFA3D0E0),
-                        valueColor: AlwaysStoppedAnimation<Color>(
+                        value: webSocketProvider.humidity / 100,
+                        backgroundColor: const Color(0xFFA3D0E0),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
                           Color(0xFF0AABE4),
                         ),
                         strokeWidth: 10,
@@ -37,7 +39,7 @@ class CropDetails extends StatelessWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "${(humidityThresholds[cropStoreOff.selectedCrops.irrigationFrequency]!.min + humidityThresholds[cropStoreOff.selectedCrops.irrigationFrequency]!.max) ~/ 2}%",
+                          "${webSocketProvider.humidity}%",
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
