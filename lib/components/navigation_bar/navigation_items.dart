@@ -13,29 +13,11 @@ class NavigationBarItem {
 }
 
 final List<NavigationBarItem> navigationItems = [
+  NavigationBarItem(iconData: Icons.home, label: 'Home', route: '/field'),
+  NavigationBarItem(iconData: Icons.sensors, label: 'Sensor', route: '/sensor'),
   NavigationBarItem(
-      iconData: Icons.home,
-      label: 'Home',
-      route: '/field'
-  ),
+      iconData: Icons.shower, label: 'Aspersor', route: '/sprinkles'),
   NavigationBarItem(
-      iconData: Icons.sensors,
-      label: 'Sensor',
-      route: '/field'
-  ),
-  NavigationBarItem(
-      iconData: Icons.shower,
-      label: 'Aspersor',
-      route: '/field'
-  ),
-  NavigationBarItem(
-      iconData: Icons.insights,
-      label: 'Reporte',
-      route: '/field'
-  ),
-  NavigationBarItem(
-      iconData: Icons.person,
-      label: 'Perfil',
-      route: '/field'
-  ),
+      iconData: Icons.insights, label: 'Reporte', route: '/field'),
+  NavigationBarItem(iconData: Icons.person, label: 'Perfil', route: '/field'),
 ];

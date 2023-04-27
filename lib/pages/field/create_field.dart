@@ -4,9 +4,12 @@ import 'package:rocio_app/components/text_field/primary_text_field.dart';
 import 'package:rocio_app/components/button/primary_button.dart';
 import 'package:rocio_app/components/button/secondary_button.dart';
 import 'package:rocio_app/domain/field/field.dart';
+import 'package:rocio_app/domain/location/distrito.dart';
 import 'package:rocio_app/store/auth.dart';
 import 'package:rocio_app/store/field.dart';
 import 'package:provider/provider.dart';
+import 'package:rocio_app/store/location.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class CreateFieldPage extends StatefulWidget {
   const CreateFieldPage({Key? key}) : super(key: key);
@@ -19,15 +22,16 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
   // step 1
   final TextEditingController _nameFieldController = TextEditingController();
   final TextEditingController _areaFieldController = TextEditingController();
-  // step 2
-  final TextEditingController _departmentFieldController =
-      TextEditingController();
-  final TextEditingController _provinceFieldController =
-      TextEditingController();
-  final TextEditingController _districtFieldController =
-      TextEditingController();
+
+  String departamento = '';
+  String provincia = '';
+  Distrito distrito = Distrito(name: '', ubigeo: '');
+  String ubigeo = '';
+
   int _currentStep = 0;
-  List<Step> buildSteps() {
+  List<Step> buildSteps(BuildContext context) {
+    final locationStore = Provider.of<LocationStore>(context);
+    locationStore.getDepartamentos();
     return [
       Step(
         title: const SizedBox.shrink(),
@@ -53,22 +57,67 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
         title: const SizedBox.shrink(),
         content: Column(
           children: [
-            PrimaryTextField(
-              controller: _departmentFieldController,
-              labelText: 'Departamento',
-              hintText: 'Departamento',
+            DropdownSearch<String>(
+              items: locationStore.departamentos,
+              dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: "Departamento",
+                  hintText: "Departamento",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  distrito = Distrito(name: '', ubigeo: '');
+                  provincia = '';
+                  departamento = value!;
+                });
+
+                locationStore.getProvincias(value!);
+              },
             ),
             const SizedBox(height: 10.0),
-            PrimaryTextField(
-              controller: _provinceFieldController,
-              labelText: 'Provincia',
-              hintText: 'Provincia',
+            DropdownSearch<String>(
+              selectedItem: provincia,
+              items: locationStore.provincias,
+              dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: "Provincia",
+                  hintText: "Provincia",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  distrito = Distrito(name: '', ubigeo: '');
+                  provincia = value!;
+                });
+                locationStore.getDistritos(departamento, provincia);
+              },
             ),
             const SizedBox(height: 10.0),
-            PrimaryTextField(
-              controller: _districtFieldController,
-              labelText: 'Distrito',
-              hintText: 'Distrito',
+            DropdownSearch(
+              selectedItem: distrito,
+              items: locationStore.distritos,
+              itemAsString: (item) => item.name,
+              dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: "Distrito",
+                  hintText: "Distrito",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  ubigeo = value!.ubigeo;
+                });
+              },
             ),
           ],
         ),
@@ -82,7 +131,7 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
     try {
       await Provider.of<FieldStore>(context, listen: false).createField(
           Field(
-            locationId: '150109',
+            locationId: ubigeo,
             name: _nameFieldController.text,
             area: int.parse(_areaFieldController.text),
           ),
@@ -165,7 +214,7 @@ class _CreateFieldPageState extends State<CreateFieldPage> {
             ],
           );
         },
-        steps: buildSteps(),
+        steps: buildSteps(context),
         type: StepperType.horizontal,
       ),
     );

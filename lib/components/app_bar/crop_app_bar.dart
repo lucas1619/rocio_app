@@ -49,10 +49,6 @@ class CropAppBar extends StatelessWidget implements PreferredSizeWidget {
                     color: Colors.white,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.white),
-                  onPressed: () {},
-                ),
               ],
             ),
           ),
