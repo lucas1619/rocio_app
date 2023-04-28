@@ -21,12 +21,6 @@ class _ReportPageState extends State<ReportPage> {
   //hook on close
 
   @override
-  void dispose() {
-    Provider.of<ReportStore>(context).reset();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final authStoreOff = Provider.of<AuthStore>(context, listen: false);
     final reportStore = Provider.of<ReportStore>(context);
@@ -38,8 +32,7 @@ class _ReportPageState extends State<ReportPage> {
       body: Scaffold(
         body: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          child: ListView(children: [
             const Center(
               child: Text(
                 'Reporte',

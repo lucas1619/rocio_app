@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'package:rocio_app/services/api.dart';
 import 'package:rocio_app/domain/crop/crop.dart';
 
+import 'package:rocio_app/domain/crop/history.dart';
+
 class CropService extends Api {
   Future<Crop> createCrop(Crop crop) async {
     final http.Response response = await post('/crop/', {
@@ -19,5 +21,14 @@ class CropService extends Api {
       throw Exception('Intentelo nuevamente');
     }
     return Crop.listFromJson(response.body);
+  }
+
+  Future<List<History>> getHistory(int cropId, int month, int year) async {
+    final http.Response response =
+        await get('/irrigation/crop/$cropId?month=$month&year=$year');
+    if (response.statusCode == 400) {
+      throw Exception('Intentelo nuevamente');
+    }
+    return History.listFromJson(response.body);
   }
 }
