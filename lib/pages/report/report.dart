@@ -18,6 +18,14 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
+  //hook on close
+
+  @override
+  void dispose() {
+    Provider.of<ReportStore>(context).reset();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final authStoreOff = Provider.of<AuthStore>(context, listen: false);

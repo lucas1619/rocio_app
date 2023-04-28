@@ -42,8 +42,36 @@ class ReportStore with ChangeNotifier, DiagnosticableTreeMixin {
   List<Field> get fields => [..._fields];
   List<Crop> get crops => [..._crops];
 
+  void reset() {
+    _fields = [];
+    _crops = [];
+    traditionalData = [
+      ChartData('Lun', 0),
+      ChartData('Mar', 0),
+      ChartData('Mie', 0),
+      ChartData('Jue', 0),
+      ChartData('Vie', 0),
+      ChartData('Sab', 0),
+      ChartData('Dom', 0),
+    ];
+    rocioData = [
+      ChartData('Lun', 0),
+      ChartData('Mar', 0),
+      ChartData('Mie', 0),
+      ChartData('Jue', 0),
+      ChartData('Vie', 0),
+      ChartData('Sab', 0),
+      ChartData('Dom', 0),
+    ];
+    consumoRocio = 0;
+    ahorro = 0.0;
+    notifyListeners();
+  }
+
   Future<void> getFields(int userId) async {
-    if (_fields.isNotEmpty) return;
+    if (_fields.isNotEmpty) {
+      return;
+    }
     FieldService fieldService = FieldService();
     List<Field> fields = await fieldService.getFields(userId);
     _fields = fields;

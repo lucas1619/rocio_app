@@ -23,6 +23,8 @@ class _CropHistoryCalendarState extends State<CropHistoryCalendar> {
             print(_calendarController.displayDate!.year);
           },
           view: CalendarView.month,
+          monthViewSettings: MonthViewSettings(
+              appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
           headerStyle: const CalendarHeaderStyle(
             textStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
           ),
