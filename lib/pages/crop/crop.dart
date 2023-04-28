@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rocio_app/components/app_bar/crop_app_bar.dart';
 import 'package:rocio_app/components/crop/crop_detail.dart';
+import 'package:rocio_app/components/crop/crop_history_calendar.dart';
 import 'package:rocio_app/store/crop.dart';
 import 'package:rocio_app/utils/images_crop.dart';
 
@@ -52,10 +53,10 @@ class _CropPageState extends State<CropPage>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                CropDetails(),
-                Center(child: Text('Dispositivos')),
-                Center(child: Text('Historial')),
+              children: [
+                const CropDetails(),
+                const Center(child: Text('Dispositivos')),
+                CropHistoryCalendar(),
               ],
             ),
           ),

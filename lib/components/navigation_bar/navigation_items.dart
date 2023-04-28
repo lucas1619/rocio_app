@@ -18,6 +18,5 @@ final List<NavigationBarItem> navigationItems = [
   NavigationBarItem(
       iconData: Icons.shower, label: 'Aspersor', route: '/sprinkles'),
   NavigationBarItem(
-      iconData: Icons.insights, label: 'Reporte', route: '/field'),
-  NavigationBarItem(iconData: Icons.person, label: 'Perfil', route: '/field'),
+      iconData: Icons.insights, label: 'Reporte', route: '/report'),
 ];

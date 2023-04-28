@@ -5,6 +5,7 @@ import 'package:rocio_app/store/auth.dart';
 import 'package:rocio_app/store/crop.dart';
 import 'package:rocio_app/store/devices.dart';
 import 'package:rocio_app/store/field.dart';
+import 'package:rocio_app/store/report.dart';
 import 'package:rocio_app/store/websocket.dart';
 import 'package:rocio_app/store/location.dart';
 
@@ -17,7 +18,8 @@ void main() {
         ChangeNotifierProvider(create: (_) => CropStore()),
         ChangeNotifierProvider(create: (_) => WebSocketStore()),
         ChangeNotifierProvider(create: (_) => LocationStore()),
-        ChangeNotifierProvider(create: (_) => DevicesStore())
+        ChangeNotifierProvider(create: (_) => DevicesStore()),
+        ChangeNotifierProvider(create: (_) => ReportStore())
       ],
       child: const MyApp(),
     ),

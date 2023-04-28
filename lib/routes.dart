@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rocio_app/pages/crop/crop.dart';
 import 'package:rocio_app/pages/login/login.dart';
+import 'package:rocio_app/pages/report/report.dart';
 import 'package:rocio_app/pages/sensor/sensor.dart';
 import 'package:rocio_app/pages/signup/signup.dart';
 import 'package:rocio_app/pages/field/field.dart';
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> routes = {
   '/crop': (BuildContext context) => const CropPage(),
   '/sensor': (BuildContext context) => const SensorPage(),
   '/sprinkles': (BuildContext context) => const SprinklerPage(),
+  '/report': (BuildContext context) => ReportPage(),
 };
