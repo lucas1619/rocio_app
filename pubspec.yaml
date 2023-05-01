@@ -72,6 +72,8 @@ flutter:
     - assets/images/alimentario.jpg
     - assets/images/ornamental.png
     - assets/images/textil.jpg
+    - assets/images/sensor.png
+    - assets/images/aspersor.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

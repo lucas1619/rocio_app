@@ -1,15 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:rocio_app/domain/crop/crop.dart';
+import 'package:rocio_app/domain/devices/devices.dart';
 import 'package:rocio_app/domain/field/field.dart';
 import 'package:rocio_app/services/field_service.dart';
 import 'package:rocio_app/services/crop_service.dart';
+import 'package:rocio_app/services/device_service.dart';
 
 class DevicesStore with ChangeNotifier, DiagnosticableTreeMixin {
   List<Field> _fields = [];
   List<Crop> _crops = [];
+  List<Device> sensors = [];
 
   List<Field> get fields => [..._fields];
   List<Crop> get crops => [..._crops];
+
+  void clear() {
+    print("gaaaaaa");
+    _fields = [];
+    _crops = [];
+    sensors = [];
+    notifyListeners();
+  }
 
   Future<void> getFields(int userId) async {
     if (_fields.isNotEmpty) return;
@@ -23,6 +34,21 @@ class DevicesStore with ChangeNotifier, DiagnosticableTreeMixin {
     CropService cropService = CropService();
     List<Crop> crops = await cropService.getCrops(fieldId);
     _crops = crops;
+    notifyListeners();
+  }
+
+  Future<void> getDeviceByCropAndType(int cropId, int deviceType) async {
+    DeviceService deviceService = DeviceService();
+    List<Device> sensors =
+        await deviceService.getDeviceByCropAndType(cropId, deviceType);
+    this.sensors = sensors;
+    notifyListeners();
+  }
+
+  Future<void> unlinkDevice(int deviceId) async {
+    sensors.removeWhere((element) => element.id == deviceId);
+    DeviceService deviceService = DeviceService();
+    await deviceService.unlinkDevice(deviceId);
     notifyListeners();
   }
 

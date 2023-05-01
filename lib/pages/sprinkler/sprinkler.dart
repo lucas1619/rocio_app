@@ -59,6 +59,11 @@ class SprinklerPage extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 20.0),
+            const Text(
+              "Aspersores vinculados",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ]),
         ),
       ),
