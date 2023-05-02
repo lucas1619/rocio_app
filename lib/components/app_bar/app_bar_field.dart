@@ -4,7 +4,7 @@ import 'package:rocio_app/store/field.dart';
 import 'package:provider/provider.dart';
 
 class AppBarField extends StatefulWidget implements PreferredSizeWidget {
-  const AppBarField();
+  const AppBarField({Key? key}) : super(key: key);
 
   @override
   AppBarFieldState createState() => AppBarFieldState();

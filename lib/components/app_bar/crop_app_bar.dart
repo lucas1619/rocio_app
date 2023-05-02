@@ -54,7 +54,6 @@ class CropAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      actions: [],
     );
   }
 

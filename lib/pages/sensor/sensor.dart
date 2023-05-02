@@ -11,10 +11,10 @@ class SensorPage extends StatefulWidget {
   const SensorPage({Key? key}) : super(key: key);
 
   @override
-  _SensorPageState createState() => _SensorPageState();
+  SensorPageState createState() => SensorPageState();
 }
 
-class _SensorPageState extends State<SensorPage> {
+class SensorPageState extends State<SensorPage> {
   late AuthStore _authStoreOff;
   late DevicesStore _devicesStore;
   @override

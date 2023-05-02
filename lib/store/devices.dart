@@ -10,15 +10,16 @@ class DevicesStore with ChangeNotifier, DiagnosticableTreeMixin {
   List<Field> _fields = [];
   List<Crop> _crops = [];
   List<Device> sensors = [];
+  List<Device> sprinklers = [];
 
   List<Field> get fields => [..._fields];
   List<Crop> get crops => [..._crops];
 
   void clear() {
-    print("gaaaaaa");
     _fields = [];
     _crops = [];
     sensors = [];
+    sprinklers = [];
     notifyListeners();
   }
 
@@ -39,14 +40,21 @@ class DevicesStore with ChangeNotifier, DiagnosticableTreeMixin {
 
   Future<void> getDeviceByCropAndType(int cropId, int deviceType) async {
     DeviceService deviceService = DeviceService();
-    List<Device> sensors =
-        await deviceService.getDeviceByCropAndType(cropId, deviceType);
-    this.sensors = sensors;
+    if (deviceType == 1) {
+      List<Device> sensors =
+          await deviceService.getDeviceByCropAndType(cropId, deviceType);
+      this.sensors = sensors;
+    } else if (deviceType == 2) {
+      List<Device> sprinklers =
+          await deviceService.getDeviceByCropAndType(cropId, deviceType);
+      this.sprinklers = sprinklers;
+    }
     notifyListeners();
   }
 
   Future<void> unlinkDevice(int deviceId) async {
     sensors.removeWhere((element) => element.id == deviceId);
+    sprinklers.removeWhere((element) => element.id == deviceId);
     DeviceService deviceService = DeviceService();
     await deviceService.unlinkDevice(deviceId);
     notifyListeners();

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:rocio_app/domain/crop/crop.dart';
 import 'package:rocio_app/domain/field/field.dart';
-import 'package:rocio_app/domain/report/TraditionalRocio.dart';
+import 'package:rocio_app/domain/report/traditional_rocio.dart';
 import 'package:rocio_app/services/field_service.dart';
 import 'package:rocio_app/services/crop_service.dart';
 import 'package:rocio_app/services/report_service.dart';

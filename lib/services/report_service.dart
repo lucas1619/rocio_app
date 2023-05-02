@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:rocio_app/domain/report/TraditionalRocio.dart';
+import 'package:rocio_app/domain/report/traditional_rocio.dart';
 import 'package:rocio_app/services/api.dart';
 
 class ReportService extends Api {

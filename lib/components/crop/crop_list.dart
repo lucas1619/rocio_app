@@ -8,10 +8,10 @@ class CropList extends StatefulWidget {
   const CropList({Key? key}) : super(key: key);
 
   @override
-  _CropListState createState() => _CropListState();
+  CropListState createState() => CropListState();
 }
 
-class _CropListState extends State<CropList> {
+class CropListState extends State<CropList> {
   int fieldId = -1;
 
   @override

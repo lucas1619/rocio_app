@@ -13,10 +13,10 @@ class CreateCropPage extends StatefulWidget {
   const CreateCropPage({Key? key}) : super(key: key);
 
   @override
-  _CreateCropPageState createState() => _CreateCropPageState();
+  CreateCropPageState createState() => CreateCropPageState();
 }
 
-class _CreateCropPageState extends State<CreateCropPage> {
+class CreateCropPageState extends State<CreateCropPage> {
   final TextEditingController _nameController = TextEditingController();
 
   String _tipoCultivo = 'Alimentarios';

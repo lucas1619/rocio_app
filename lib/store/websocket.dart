@@ -9,18 +9,15 @@ class WebSocketStore extends ChangeNotifier {
   void connect() async {
     try {
       webSocket = await WebSocket.connect('ws://52.36.218.139');
-      print("Conectado al WebSocket");
       webSocket.listen((data) {
         final decoded = jsonDecode(data);
         if (decoded["event"] == "updateMeasureFromIot") {
           humidity = decoded['data']['humidity'];
-          print(humidity);
           notifyListeners();
         }
-        print('WebSocket: $data');
       });
     } catch (e) {
-      print('Error al conectarse al WebSocket: $e');
+      rethrow;
     }
   }
 

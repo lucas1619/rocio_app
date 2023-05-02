@@ -14,10 +14,10 @@ class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
 
   @override
-  _ReportPageState createState() => _ReportPageState();
+  ReportPageState createState() => ReportPageState();
 }
 
-class _ReportPageState extends State<ReportPage> {
+class ReportPageState extends State<ReportPage> {
   //hook on close
 
   @override

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:rocio_app/components/text_field/primary_text_field.dart';
 import 'package:rocio_app/components/button/primary_button.dart';
 import 'package:rocio_app/components/app_bar/only_back_app_bar.dart';
-import 'package:rocio_app/domain/auth/user.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({Key? key}) : super(key: key);
@@ -44,7 +43,7 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: OnlyBackAppBar(),
+        appBar: const OnlyBackAppBar(),
         body: SingleChildScrollView(
             child: Padding(
           padding: const EdgeInsets.only(top: 0),

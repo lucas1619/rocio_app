@@ -6,7 +6,7 @@ class PrimarySelect extends StatefulWidget {
   final List<String> items;
   final ValueChanged<String?> onChanged;
 
-  PrimarySelect({
+  const PrimarySelect({
     Key? key,
     required this.label,
     required this.value,
@@ -15,10 +15,10 @@ class PrimarySelect extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PrimarySelectState createState() => _PrimarySelectState();
+  PrimarySelectState createState() => PrimarySelectState();
 }
 
-class _PrimarySelectState extends State<PrimarySelect> {
+class PrimarySelectState extends State<PrimarySelect> {
   @override
   Widget build(BuildContext context) {
     return Stack(

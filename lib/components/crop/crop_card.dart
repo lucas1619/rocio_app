@@ -8,7 +8,7 @@ class CropCard extends StatelessWidget {
   final String faseCultivo;
   final Function(BuildContext) onTap;
 
-  CropCard({
+  const CropCard({
     Key? key,
     required this.title,
     required this.tipoCultivo,
@@ -60,7 +60,7 @@ class CropCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.spa_outlined),
                       const SizedBox(width: 3.0),
-                      Text(tipoSuelo, style: TextStyle(fontSize: 11)),
+                      Text(tipoSuelo, style: const TextStyle(fontSize: 11)),
                     ],
                   ),
                   Row(

@@ -5,10 +5,12 @@ import 'package:rocio_app/store/devices.dart';
 class SensorCard extends StatelessWidget {
   final Device device;
   final DevicesStore devicesStore;
-  SensorCard({
+  final bool showOnly;
+  const SensorCard({
     Key? key,
     required this.device,
     required this.devicesStore,
+    this.showOnly = false,
   }) : super(key: key);
 
   @override
@@ -57,13 +59,18 @@ class SensorCard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: () {
-                // implement delete action
-                devicesStore.unlinkDevice(device.id);
-              },
-              icon: const Icon(Icons.delete_outline),
-            ),
+            Builder(builder: (BuildContext context) {
+              if (showOnly) {
+                return Container();
+              }
+              return IconButton(
+                onPressed: () {
+                  // implement delete action
+                  devicesStore.unlinkDevice(device.id);
+                },
+                icon: const Icon(Icons.delete_outline),
+              );
+            })
           ],
         ),
       ),

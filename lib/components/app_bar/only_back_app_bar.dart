@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OnlyBackAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const OnlyBackAppBar();
+  const OnlyBackAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

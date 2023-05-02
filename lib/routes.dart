@@ -18,5 +18,5 @@ final Map<String, WidgetBuilder> routes = {
   '/crop': (BuildContext context) => const CropPage(),
   '/sensor': (BuildContext context) => const SensorPage(),
   '/sprinkles': (BuildContext context) => const SprinklerPage(),
-  '/report': (BuildContext context) => ReportPage(),
+  '/report': (BuildContext context) => const ReportPage(),
 };

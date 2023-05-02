@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rocio_app/components/app_bar/crop_app_bar.dart';
 import 'package:rocio_app/components/crop/crop_detail.dart';
+import 'package:rocio_app/components/crop/crop_devices.dart';
 import 'package:rocio_app/components/crop/crop_history_calendar.dart';
 import 'package:rocio_app/store/crop.dart';
 import 'package:rocio_app/utils/images_crop.dart';
@@ -10,10 +11,10 @@ class CropPage extends StatefulWidget {
   const CropPage({Key? key}) : super(key: key);
 
   @override
-  _CropPageState createState() => _CropPageState();
+  CropPageState createState() => CropPageState();
 }
 
-class _CropPageState extends State<CropPage>
+class CropPageState extends State<CropPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -53,9 +54,9 @@ class _CropPageState extends State<CropPage>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [
-                const CropDetails(),
-                const Center(child: Text('Dispositivos')),
+              children: const [
+                CropDetails(),
+                CropDevices(),
                 CropHistoryCalendar(),
               ],
             ),
