@@ -8,6 +8,7 @@ class Crop {
   String growthStage;
   int fieldId;
   int irrigationFrequency;
+  bool isIrrigating;
   Crop(
       {this.id = 0,
       required this.name,
@@ -15,6 +16,7 @@ class Crop {
       required this.soilType,
       required this.growthStage,
       required this.fieldId,
+      this.isIrrigating = false,
       this.irrigationFrequency = -1});
 
   static List<Crop> listFromJson(String json) {
@@ -72,13 +74,13 @@ class Crop {
 
   factory Crop.fromMap(Map<String, dynamic> map) {
     return Crop(
-      id: map['id'],
-      name: map['name'],
-      cropType: map['crop_type'],
-      soilType: map['soil_type'],
-      growthStage: map['growth_stage'],
-      fieldId: map['field_id'],
-      irrigationFrequency: map['irrigation_frequency'],
-    );
+        id: map['id'],
+        name: map['name'],
+        cropType: map['crop_type'],
+        soilType: map['soil_type'],
+        growthStage: map['growth_stage'],
+        fieldId: map['field_id'],
+        irrigationFrequency: map['irrigation_frequency'],
+        isIrrigating: map['is_irrigating'] ?? false);
   }
 }

@@ -31,4 +31,20 @@ class CropService extends Api {
     }
     return History.listFromJson(response.body);
   }
+
+  Future<void> stopIrrigation(int cropId) async {
+    final http.Response response =
+        await post('/crop/$cropId/irrigation/stop', {});
+    if (response.statusCode == 400) {
+      throw Exception('Intentelo nuevamente');
+    }
+  }
+
+  Future<void> startIrrigation(int cropId) async {
+    final http.Response response =
+        await post('/crop/$cropId/irrigation/start', {});
+    if (response.statusCode == 400) {
+      throw Exception('Intentelo nuevamente');
+    }
+  }
 }

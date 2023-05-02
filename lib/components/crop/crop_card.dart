@@ -6,6 +6,7 @@ class CropCard extends StatelessWidget {
   final String tipoCultivo;
   final String tipoSuelo;
   final String faseCultivo;
+  final bool isIrrigating;
   final Function(BuildContext) onTap;
 
   const CropCard({
@@ -15,6 +16,7 @@ class CropCard extends StatelessWidget {
     required this.tipoSuelo,
     required this.faseCultivo,
     required this.onTap,
+    this.isIrrigating = false,
   }) : super(key: key);
 
   @override
@@ -44,6 +46,22 @@ class CropCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 16.0,
                 ),
+              ),
+              const SizedBox(height: 10.0),
+              Row(
+                children: [
+                  Icon(Icons.shower_outlined,
+                      color: isIrrigating
+                          ? const Color(0xff61C02C)
+                          : const Color(0xff595959)),
+                  Text(
+                    isIrrigating ? 'Riego activado' : 'Riego desactivado',
+                    style: TextStyle(
+                        color: isIrrigating
+                            ? const Color(0xff61C02C)
+                            : const Color(0xff595959)),
+                  )
+                ],
               ),
               const SizedBox(height: 10.0),
               Row(

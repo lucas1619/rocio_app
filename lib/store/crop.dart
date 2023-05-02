@@ -54,6 +54,20 @@ class CropStore with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
+  Future<void> stopIrrigation() async {
+    CropService cropService = CropService();
+    await cropService.stopIrrigation(selectedCrops.id);
+    selectedCrops.isIrrigating = false;
+    notifyListeners();
+  }
+
+  Future<void> startIrrigation() async {
+    CropService cropService = CropService();
+    await cropService.startIrrigation(selectedCrops.id);
+    selectedCrops.isIrrigating = true;
+    notifyListeners();
+  }
+
   /// Makes `Counter` readable inside the devtools by listing all of its properties
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

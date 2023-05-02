@@ -9,7 +9,7 @@ class TraditionalRocio {
 
   factory TraditionalRocio.fromJson(Map<String, dynamic> json) {
     return TraditionalRocio(
-      irrigation: json['irrigation'],
+      irrigation: json['irrigation'].toInt(),
       traditional: json['traditional'],
     );
   }

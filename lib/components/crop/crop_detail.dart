@@ -11,7 +11,7 @@ class CropDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cropStoreOff = Provider.of<CropStore>(context, listen: false);
+    final cropStore = Provider.of<CropStore>(context);
     final fieldStoreOff = Provider.of<FieldStore>(context, listen: false);
     final webSocketProvider = Provider.of<WebSocketStore>(context);
     return Padding(
@@ -63,7 +63,7 @@ class CropDetails extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Mínimo: ${humidityThresholds[cropStoreOff.selectedCrops.irrigationFrequency]!.min} %\nMáximo: ${humidityThresholds[cropStoreOff.selectedCrops.irrigationFrequency]!.max}%",
+                      "Mínimo: ${humidityThresholds[cropStore.selectedCrops.irrigationFrequency]!.min} %\nMáximo: ${humidityThresholds[cropStore.selectedCrops.irrigationFrequency]!.max}%",
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.black,
@@ -82,13 +82,13 @@ class CropDetails extends StatelessWidget {
                     icon: Icons.speed,
                     textColor: const Color(0xff56BD86),
                     iconColor: const Color(0xff56BD86),
-                    text: cropStoreOff.selectedCrops.growthStage),
+                    text: cropStore.selectedCrops.growthStage),
                 CropDetailCard(
                     title: 'Tipo de suelo',
                     icon: Icons.spa_outlined,
                     textColor: const Color(0xff61C02C),
                     iconColor: const Color(0xff61C02C),
-                    text: cropStoreOff.selectedCrops.soilType)
+                    text: cropStore.selectedCrops.soilType)
               ],
             ),
             Row(
@@ -116,8 +116,50 @@ class CropDetails extends StatelessWidget {
                     icon: Icons.forest_outlined,
                     textColor: Colors.orange,
                     iconColor: Colors.orange,
-                    text: cropStoreOff.selectedCrops.cropType),
+                    text: cropStore.selectedCrops.cropType),
               ],
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: cropStore.selectedCrops.isIrrigating
+                  ? null
+                  : () {
+                      cropStore.startIrrigation();
+                    },
+              style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  backgroundColor: const Color(0xff61C02C)),
+              child: const SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'Activar',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: !cropStore.selectedCrops.isIrrigating
+                  ? null
+                  : () {
+                      cropStore.stopIrrigation();
+                    },
+              style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  backgroundColor: const Color(0xffFF5353)),
+              child: const SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'Detener',
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ],
         ));

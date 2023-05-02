@@ -59,6 +59,7 @@ class CropListState extends State<CropList> {
                           cropStore.updateSelected(cropId: e.id);
                           Navigator.pushNamed(context, '/crop');
                         },
+                        isIrrigating: e.isIrrigating,
                         tipoCultivo: e.cropType,
                         tipoSuelo: e.soilType,
                         faseCultivo: e.growthStage))
