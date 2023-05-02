@@ -23,7 +23,7 @@ class Device {
       id: json['id'],
       name: json['name'],
       deviceType: json['device_type'],
-      cropId: json['crop_id'],
+      cropId: json['crop_id'] ?? -1,
     );
   }
 

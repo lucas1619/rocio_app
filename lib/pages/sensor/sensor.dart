@@ -98,6 +98,7 @@ class SensorPageState extends State<SensorPage> {
             TextButton(
               onPressed: () {
                 // Acción a ejecutar cuando se presiona el botón
+                Navigator.pushNamed(context, '/sensor/link');
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,

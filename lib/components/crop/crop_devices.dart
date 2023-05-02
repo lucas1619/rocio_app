@@ -16,16 +16,11 @@ class CropDevicesState extends State<CropDevices> {
   late DevicesStore _devicesStore;
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     final cropStore = Provider.of<CropStore>(context, listen: false);
-    _devicesStore = Provider.of<DevicesStore>(context, listen: false);
+    _devicesStore = Provider.of<DevicesStore>(context);
     _devicesStore.getDeviceByCropAndType(cropStore.selectedCrops.id, 1);
     _devicesStore.getDeviceByCropAndType(cropStore.selectedCrops.id, 2);
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(

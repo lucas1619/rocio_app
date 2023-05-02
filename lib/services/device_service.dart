@@ -15,8 +15,9 @@ class DeviceService extends Api {
   }
 
   // Obtener dispositivos no vinculados a ningún cultivo
-  Future<List<Device>> getUnlinkedDevices() async {
-    final http.Response response = await get('/device/getUnlinkedDevices');
+  Future<List<Device>> getUnlinkedDevices(int deviceType) async {
+    final http.Response response =
+        await get('/device/getUnlinkedDevices/$deviceType');
     if (response.statusCode == 400) {
       throw Exception('Intentelo nuevamente');
     }

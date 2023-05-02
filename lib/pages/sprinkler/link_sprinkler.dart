@@ -2,21 +2,24 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rocio_app/components/app_bar/only_back_app_bar.dart';
-import 'package:rocio_app/components/devices/sprinkler_card.dart';
-import 'package:rocio_app/components/navigation_bar/navigation_bar.dart';
+import 'package:rocio_app/components/button/primary_button.dart';
+import 'package:rocio_app/domain/crop/crop.dart';
+import 'package:rocio_app/domain/devices/devices.dart';
 import 'package:rocio_app/store/auth.dart';
 import 'package:rocio_app/store/devices.dart';
 
-class SprinklerPage extends StatefulWidget {
-  const SprinklerPage({Key? key}) : super(key: key);
+class LinkSprinklerPage extends StatefulWidget {
+  const LinkSprinklerPage({Key? key}) : super(key: key);
 
   @override
-  SprinklerPageState createState() => SprinklerPageState();
+  LinkSprinklerState createState() => LinkSprinklerState();
 }
 
-class SprinklerPageState extends State<SprinklerPage> {
+class LinkSprinklerState extends State<LinkSprinklerPage> {
   late AuthStore _authStoreOff;
   late DevicesStore _devicesStore;
+  late Device selectedDevice;
+  late Crop selectedCrop;
   @override
   void dispose() {
     _devicesStore.clear();
@@ -29,6 +32,7 @@ class SprinklerPageState extends State<SprinklerPage> {
     _authStoreOff = Provider.of<AuthStore>(context, listen: false);
     _devicesStore = Provider.of<DevicesStore>(context);
     _devicesStore.getFields(_authStoreOff.user.id);
+    _devicesStore.getUnlinkedDevices(2);
     return Scaffold(
       appBar: const OnlyBackAppBar(),
       body: Padding(
@@ -38,7 +42,7 @@ class SprinklerPageState extends State<SprinklerPage> {
           children: [
             const Center(
               child: Text(
-                'Aspersores',
+                'Vincular Aspersor',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
             ),
@@ -73,54 +77,42 @@ class SprinklerPageState extends State<SprinklerPage> {
                 ),
               ),
               onChanged: (value) {
-                _devicesStore.getDeviceByCropAndType(value!.id, 2);
+                setState(() {
+                  selectedCrop = value!;
+                });
               },
             ),
             const SizedBox(height: 20.0),
-            const Text(
-              "Aspersores vinculados",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20.0),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                children: List.generate(
-                  _devicesStore.sprinklers.length,
-                  (index) {
-                    final sprinkler = _devicesStore.sprinklers[index];
-                    return SprinklerCard(
-                      device: sprinkler,
-                      devicesStore: _devicesStore,
-                    );
-                  },
+            DropdownSearch(
+              itemAsString: (item) => item.name,
+              items: _devicesStore.unlinkedDevices,
+              dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: "Sensor",
+                  hintText: "Sensor",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10.0),
-            TextButton(
-              onPressed: () {
-                // Acción a ejecutar cuando se presiona el botón
-                Navigator.pushNamed(context, '/sprinkles/link');
+              onChanged: (value) {
+                setState(() {
+                  selectedDevice = value!;
+                });
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Icon(
-                    Icons.add_circle_outline,
-                    color: Colors.black,
-                  ), // Icono de circle plus
-                  SizedBox(width: 8), // Separación entre el icono y el texto
-                  Text("Vincular Aspersores",
-                      style: TextStyle(color: Colors.black)),
-                ],
-              ),
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 20.0),
+            PrimaryButton(
+                action: (BuildContext context) async {
+                  await _devicesStore.linkDevice(
+                      selectedDevice.id, selectedCrop.id);
+                  Navigator.pop(context);
+                },
+                label: 'Vincular',
+                parentContext: context)
           ],
         ),
       ),
-      bottomNavigationBar: const RocioNavigationBar(selectedIndex: 2),
     );
   }
 }
