@@ -6,7 +6,10 @@ class Humidity {
 }
 
 final Map<int, Humidity> humidityThresholds = {
-  1: Humidity(min: 15, max: 35),
-  2: Humidity(min: 45, max: 55),
-  3: Humidity(min: 50, max: 65),
+  1: Humidity(min: 46, max: 71),
+  2: Humidity(min: 36, max: 57),
+  3: Humidity(min: 31, max: 51),
+  4: Humidity(min: 39, max: 65),
+  5: Humidity(min: 35, max: 50),
+  6: Humidity(min: 30, max: 46),
 };
