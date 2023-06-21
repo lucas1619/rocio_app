@@ -45,6 +45,8 @@ class CropStore with ChangeNotifier, DiagnosticableTreeMixin {
         await cropService.getHistory(selectedCrops.id, month, year);
     final appointments = history.map((history) {
       return Appointment(
+          startTimeZone: null,
+          endTimeZone: null,
           startTime: history.startDate,
           endTime: history.endDate,
           subject: 'Duracion: ${history.duration.toInt()} minutos');

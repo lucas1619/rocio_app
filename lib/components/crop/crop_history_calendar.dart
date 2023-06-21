@@ -29,6 +29,7 @@ class CropHistoryCalendarState extends State<CropHistoryCalendar> {
       padding: const EdgeInsets.all(8),
       child: _isDataLoaded
           ? SfCalendar(
+              timeZone: null,
               allowAppointmentResize: true,
               controller: _calendarController,
               dataSource: cropStore.source,
